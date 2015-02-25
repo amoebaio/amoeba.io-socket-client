@@ -1,0 +1,24 @@
+{
+  "name": "amoeba.io-socket-client",
+  "main": "index.js",
+  "version": "0.0.2",
+  "homepage": "https://github.com/amoebaio/amoeba.io-socket-client",
+  "authors": [
+    "Maksym Pomazan"
+  ],
+  "description": "Socket Client for amoeba.io",
+  "keywords": [
+    "socket.io",
+    "socket",
+    "service",
+    "nodejs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
