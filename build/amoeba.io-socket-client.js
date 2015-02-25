@@ -18,7 +18,6 @@ SocketClient.prototype.save = function(callback) {
 };
 
 SocketClient.prototype.invoke = function(serviceName, method, data, callback) {
-    console.log(this.socket);
     this.socket.emit('invoke', {
         id: this.save(callback),
         service: serviceName,
