@@ -1,6 +1,6 @@
 {
   "name": "amoeba.io-socket-client",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Socket Client for amoeba.io",
   "main": "index.js",
   "scripts": {
