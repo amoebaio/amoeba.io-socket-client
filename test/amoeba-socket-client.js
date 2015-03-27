@@ -1,7 +1,8 @@
 var assert = require("assert");
 var Amoeba = require("amoeba.io");
 var LocalClient = require("amoeba.io-local-client");
-var SocketServer = require("amoeba.io-socket-server");
+var SocketServer = require("../../amoeba.io-socket-server/lib/amoeba-socket-server");
+//var SocketServer = require("amoeba.io-socket-server");
 var SocketClient = require("../lib/amoeba-socket-client");
 
 var ServerIO = require('socket.io');
@@ -23,7 +24,7 @@ Auth.prototype.login = function(data, callback) {
 //Start socket server
 var port = "8090";
 amoeba = new Amoeba();
-amoeba.service("auth", new LocalClient(new Auth()));
+amoeba.use("auth", new LocalClient(new Auth()));
 
 io = new ServerIO();
 io.listen(port).on('connection', function(socket) {
@@ -50,8 +51,8 @@ describe('LocalClient', function() {
         });
 
         socket.on('connect', function() {
-            client_amoeba.service("auth", new SocketClient(socket));
-            client_amoeba.service("auth").invoke("login", {
+            client_amoeba.use("auth", new SocketClient(socket));
+            client_amoeba.use("auth").invoke("login", {
                 login: 'admin',
                 password: 'pass'
             }, function(err, data) {
@@ -64,7 +65,7 @@ describe('LocalClient', function() {
         });
     });
 
-    it('#invoke unknown service', function(done) {
+    it('#invoke unknown use', function(done) {
         var client_amoeba = new Amoeba();
 
         var socket = new Socket('http://localhost:' + port, {
@@ -72,12 +73,12 @@ describe('LocalClient', function() {
             reconnection: false
         });
         socket.on('connect', function() {
-            client_amoeba.service("auths", new SocketClient(socket));
-            client_amoeba.service("auths").invoke("login", {
+            client_amoeba.use("auths", new SocketClient(socket));
+            client_amoeba.use("auths").invoke("login", {
                 login: 'admin',
                 password: 'pass'
             }, function(err, data) {
-                assert.equal(err.message, "Service 'auths' not found");
+                assert.ok(err!==null);
                 socket.close();
                 done();
             });
@@ -92,12 +93,12 @@ describe('LocalClient', function() {
             reconnection: false
         });
         socket.on('connect', function() {
-            client_amoeba.service("auth", new SocketClient(socket));
-            client_amoeba.service("auth").invoke("logins", {
+            client_amoeba.use("auth", new SocketClient(socket));
+            client_amoeba.use("auth").invoke("logins", {
                 login: 'admin',
                 password: 'pass'
             }, function(err, data) {
-                assert.equal(err.message, "Service 'auth' has no method 'logins'");
+                assert.equal(err.message, "Object 'auth' has no method 'logins'");
                 socket.close();
                 done();
             });

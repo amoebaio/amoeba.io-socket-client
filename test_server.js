@@ -22,7 +22,7 @@ Auth.prototype.login = function(data, callback) {
 var port = "8090";
 
 amoeba = new Amoeba();
-amoeba.service("auth", new LocalClient(new Auth()));
+amoeba.use("auth", new LocalClient(new Auth()));
 
 io = new ServerIO();
 io.listen(port).on('connection', function(socket) {
