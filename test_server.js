@@ -1,8 +1,6 @@
-var Amoeba = require("amoeba.io");
-var LocalClient = require("amoeba.io-local-client");
-var SocketServer = require("amoeba.io-socket-server");
-
-var ServerIO = require('socket.io');
+var Amoeba = require("../amoeba.io");
+var LocalClient = require("../amoeba.io-local-client");
+var SocketServer = require("../amoeba.io-socket-server");
 
 Auth = function() {};
 
@@ -22,18 +20,6 @@ Auth.prototype.login = function(data, callback) {
 var port = "8090";
 
 amoeba = new Amoeba();
-amoeba.use("auth", new LocalClient(new Auth()));
+amoeba.path("auth").as(new LocalClient(new Auth()));
 
-io = new ServerIO();
-io.listen(port).on('connection', function(socket) {
-    console.log("connected");
-    socket.on('error', function() {
-        console.log(socket.connected);
-        //error received on SocketServer
-    });
-    socket.on('disconnect', function() {
-        console.log("desconnect");
-        //error received on SocketServer
-    });
-    amoeba.server(new SocketServer(socket));
-});
+new SocketServer(amoeba, {port:port});
