@@ -1,7 +1,7 @@
 {
   "name": "amoeba.io-socket-client",
   "main": "index.js",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/amoebaio/amoeba.io-socket-client",
   "authors": [
     "Maksym Pomazan"
